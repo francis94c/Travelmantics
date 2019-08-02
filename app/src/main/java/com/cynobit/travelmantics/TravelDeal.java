@@ -15,6 +15,8 @@ public class TravelDeal {
         this.imageUrl = imageUrl;
     }
 
+    public TravelDeal() {}
+
     public String getId() {
         return id;
     }
