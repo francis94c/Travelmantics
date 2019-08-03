@@ -36,6 +36,7 @@ public class DealActivity extends AppCompatActivity {
     ImageView imageView;
     private TravelDeal deal;
     private static int CHOOSE_IMAGE = 42;
+    private int dealIndex;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +54,7 @@ public class DealActivity extends AppCompatActivity {
             deal = new TravelDeal();
         }
         this.deal = deal;
+        dealIndex = intent.getIntExtra("deal_index", -1);
         txtTitle.setText(deal.getTitle());
         txtDescription.setText(deal.getDescription());
         txtPrice.setText(deal.getPrice());
@@ -114,12 +116,12 @@ public class DealActivity extends AppCompatActivity {
                 saveDeal();
                 Toast.makeText(this, "Deal Saved", Toast.LENGTH_LONG).show();
                 clean();
-                backToList();
+                finish();
                 return true;
             case R.id.delete_menu:
                 deleteDeal();
                 Toast.makeText(this, "Deal Deleted", Toast.LENGTH_LONG).show();
-                backToList();
+                finish();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -134,8 +136,8 @@ public class DealActivity extends AppCompatActivity {
             mDatabaseReference.push().setValue(deal);
         } else {
             mDatabaseReference.child(deal.getId()).setValue(deal);
+            FirebaseUtil.mDeals.set(dealIndex, deal);
         }
-        mDatabaseReference.push().setValue(deal);
     }
 
     private void deleteDeal() {
@@ -144,11 +146,7 @@ public class DealActivity extends AppCompatActivity {
             return;
         }
         mDatabaseReference.child(deal.getId()).removeValue();
-    }
-
-    private void backToList() {
-        Intent intent = new Intent(this, ListActivity.class);
-        startActivity(intent);
+        FirebaseUtil.mDeals.remove(dealIndex);
     }
 
     private void enableEditTexts(boolean isEnabled) {

@@ -27,7 +27,6 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.DealViewHolder
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mDatabaseReference;
     private ChildEventListener mChildListener;
-    private ImageView imageDeal;
     ArrayList<TravelDeal> deals;
 
     public DealAdapter() {
@@ -38,7 +37,6 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.DealViewHolder
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 TravelDeal td = dataSnapshot.getValue(TravelDeal.class);
-                Log.d("Deal: ", td.getTitle());
                 td.setId(dataSnapshot.getKey());
                 deals.add(td);
                 notifyItemInserted(deals.size() - 1);
@@ -91,6 +89,7 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.DealViewHolder
         TextView tvTitle;
         TextView tvDescription;
         TextView tvPrice;
+        ImageView imageDeal;
 
         public DealViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -111,10 +110,10 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.DealViewHolder
         @Override
         public void onClick(View view) {
             int position = getAdapterPosition();
-            Log.d("Click", String.valueOf(position));
             TravelDeal selectedDeal = deals.get(position);
             Intent intent = new Intent(view.getContext(), DealActivity.class);
             intent.putExtra("Deal", selectedDeal);
+            intent.putExtra("deal_index", position);
             view.getContext().startActivity(intent);
         }
 
