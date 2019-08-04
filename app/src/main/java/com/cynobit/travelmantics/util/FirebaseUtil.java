@@ -1,12 +1,11 @@
-package com.cynobit.travelmantics;
+package com.cynobit.travelmantics.util;
 
-import android.app.Activity;
-import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.cynobit.travelmantics.ListActivity;
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
@@ -26,10 +25,10 @@ public class FirebaseUtil {
     public static FirebaseDatabase mFirebaseDatabase;
     public static DatabaseReference mDatabaseReference;
     private static FirebaseUtil firebaseUtil;
-    public static FirebaseAuth mFirebaseAuth;
+    private static FirebaseAuth mFirebaseAuth;
     public static FirebaseStorage mStorage;
     public static StorageReference mStorageRef;
-    public static FirebaseAuth.AuthStateListener mAuthListener;
+    private static FirebaseAuth.AuthStateListener mAuthListener;
     public static ArrayList<TravelDeal> mDeals;
     private static ListActivity caller;
     public static int RC_SIGN_IN = 53;

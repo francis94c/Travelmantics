@@ -1,8 +1,7 @@
-package com.cynobit.travelmantics;
+package com.cynobit.travelmantics.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +12,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.cynobit.travelmantics.DealActivity;
+import com.cynobit.travelmantics.R;
+import com.cynobit.travelmantics.util.FirebaseUtil;
+import com.cynobit.travelmantics.util.TravelDeal;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;

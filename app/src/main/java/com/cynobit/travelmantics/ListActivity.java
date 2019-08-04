@@ -13,6 +13,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.cynobit.travelmantics.adapter.DealAdapter;
+import com.cynobit.travelmantics.util.FirebaseUtil;
+import com.cynobit.travelmantics.util.TravelDeal;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;

@@ -1,4 +1,4 @@
-package com.cynobit.travelmantics;
+package com.cynobit.travelmantics.util;
 
 import java.io.Serializable;
 
