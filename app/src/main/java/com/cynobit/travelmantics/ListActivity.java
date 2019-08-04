@@ -1,6 +1,7 @@
 package com.cynobit.travelmantics;
 
 import android.content.Intent;
+import android.net.Credentials;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -17,6 +18,7 @@ import com.cynobit.travelmantics.adapter.DealAdapter;
 import com.cynobit.travelmantics.util.FirebaseUtil;
 import com.cynobit.travelmantics.model.TravelDeal;
 import com.firebase.ui.auth.AuthUI;
+import com.firebase.ui.auth.IdpResponse;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.ChildEventListener;
@@ -31,7 +33,7 @@ public class ListActivity extends AppCompatActivity {
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mDatabaseReference;
     private ChildEventListener mChildListener;
-    private DealAdapter adapter;
+    public DealAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,8 +45,10 @@ public class ListActivity extends AppCompatActivity {
         rvDeals.setAdapter(adapter);
         LinearLayoutManager dealsLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
         rvDeals.setLayoutManager(dealsLayoutManager);
-        if (FirebaseUtil.loggedInUserEmail != null) {
-            setTitle(getResources().getString(R.string.app_name) + " : " + FirebaseUtil.loggedInUserEmail);
+        if (FirebaseUtil.mFirebaseAuth.getCurrentUser() != null) {
+            setTitle(getResources().getString(R.string.app_name) + " : " + FirebaseUtil.mFirebaseAuth.getCurrentUser().getEmail());
+            adapter.attachListener();
+            FirebaseUtil.attachedListener = true;
         }
     }
 
@@ -78,7 +82,10 @@ public class ListActivity extends AppCompatActivity {
                             }
                         });
                 FirebaseUtil.detachListener();
-                FirebaseUtil.launched = false;
+                adapter.detachListener();
+                adapter.clear();
+                FirebaseUtil.attachedListener = false;
+                setTitle(getResources().getString(R.string.app_name));
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -96,12 +103,14 @@ public class ListActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if (requestCode == FirebaseUtil.RC_SIGN_IN) {
-            invalidateOptionsMenu();
-            if (FirebaseUtil.loggedInUserEmail != null) {
-                setTitle(getResources().getString(R.string.app_name) + " : " + FirebaseUtil.loggedInUserEmail);
+        if (requestCode == FirebaseUtil.RC_SIGN_IN ) {
+            if (resultCode == RESULT_OK) {
+                invalidateOptionsMenu();
+            } else if (resultCode == RESULT_CANCELED) {
+                finish();
             }
         }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
@@ -115,5 +124,8 @@ public class ListActivity extends AppCompatActivity {
         super.onResume();
         FirebaseUtil.attachListener();
         adapter.notifyDataSetChanged();
+        if (FirebaseUtil.mFirebaseAuth.getCurrentUser() != null) {
+            setTitle(getResources().getString(R.string.app_name) + " : " + FirebaseUtil.mFirebaseAuth.getCurrentUser().getEmail());
+        }
     }
 }

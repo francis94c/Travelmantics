@@ -26,19 +26,23 @@ public class FirebaseUtil {
     public static FirebaseDatabase mFirebaseDatabase;
     public static DatabaseReference mDatabaseReference;
     private static FirebaseUtil firebaseUtil;
-    private static FirebaseAuth mFirebaseAuth;
+    public static FirebaseAuth mFirebaseAuth;
     public static FirebaseStorage mStorage;
     public static StorageReference mStorageRef;
     private static FirebaseAuth.AuthStateListener mAuthListener;
     public static ArrayList<TravelDeal> mDeals;
     private static ListActivity caller;
+    public static boolean attachedListener = false;
     public static int RC_SIGN_IN = 53;
     public static boolean isAdmin;
     public static boolean launched = false;
-    public static String loggedInUserEmail;
 
 
     private FirebaseUtil() {
+    }
+
+    public static void closeFbReference() {
+        firebaseUtil = null;
     }
 
     public static void openFbReference(String ref, final ListActivity callerActivity) {
@@ -54,7 +58,9 @@ public class FirebaseUtil {
                         FirebaseUtil.signIn();
                     } else {
                         String uid = firebaseAuth.getUid();
-                        loggedInUserEmail = firebaseAuth.getCurrentUser().getEmail();
+                        if (!attachedListener) {
+                            caller.adapter.attachListener();
+                        }
                         checkAdmin(uid);
                         if (!launched) {
                             Toast.makeText(callerActivity.getBaseContext(), "Welcome back!", Toast.LENGTH_LONG).show();
@@ -67,6 +73,7 @@ public class FirebaseUtil {
         }
         mDeals = new ArrayList<>();
         mDatabaseReference = mFirebaseDatabase.getReference().child(ref);
+        mDatabaseReference.keepSynced(true);
     }
 
     private static void signIn() {
@@ -76,6 +83,7 @@ public class FirebaseUtil {
         caller.startActivityForResult(
                 AuthUI.getInstance()
                         .createSignInIntentBuilder()
+                        .setIsSmartLockEnabled(false)
                         .setAvailableProviders(providers)
                         .build(),
                 RC_SIGN_IN);

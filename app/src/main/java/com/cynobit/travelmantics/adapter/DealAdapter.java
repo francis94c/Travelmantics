@@ -65,7 +65,21 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.DealViewHolder
 
             }
         };
+    }
+
+    public void clear() {
+        deals.clear();
+        notifyDataSetChanged();
+    }
+
+    public void detachListener() {
+        mDatabaseReference.removeEventListener(mChildListener);
+        FirebaseUtil.attachedListener = false;
+    }
+
+    public void attachListener() {
         mDatabaseReference.addChildEventListener(mChildListener);
+        FirebaseUtil.attachedListener = true;
     }
 
     @NonNull
