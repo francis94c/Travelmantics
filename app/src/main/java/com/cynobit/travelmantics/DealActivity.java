@@ -70,6 +70,7 @@ public class DealActivity extends AppCompatActivity {
                 startActivityForResult(intent, CHOOSE_IMAGE);
             }
         });
+        if (getActionBar() != null) getActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override

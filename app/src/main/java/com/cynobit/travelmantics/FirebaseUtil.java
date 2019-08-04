@@ -32,8 +32,9 @@ public class FirebaseUtil {
     public static FirebaseAuth.AuthStateListener mAuthListener;
     public static ArrayList<TravelDeal> mDeals;
     private static ListActivity caller;
-    private static int RC_SIGN_IN = 53;
+    public static int RC_SIGN_IN = 53;
     public static boolean isAdmin;
+    public static boolean launched = false;
 
 
     private FirebaseUtil() {
@@ -53,7 +54,10 @@ public class FirebaseUtil {
                     } else {
                         String uid = firebaseAuth.getUid();
                         checkAdmin(uid);
-                        Toast.makeText(callerActivity.getBaseContext(), "Welcome back!", Toast.LENGTH_LONG).show();
+                        if (!launched) {
+                            Toast.makeText(callerActivity.getBaseContext(), "Welcome back!", Toast.LENGTH_LONG).show();
+                            launched = true;
+                        }
                     }
                 }
             };
@@ -64,7 +68,6 @@ public class FirebaseUtil {
     }
 
     private static void signIn() {
-        // Choose authentication providers
         List<AuthUI.IdpConfig> providers = Arrays.asList(
                 new AuthUI.IdpConfig.EmailBuilder().build(),
                 new AuthUI.IdpConfig.GoogleBuilder().build());
@@ -74,6 +77,7 @@ public class FirebaseUtil {
                         .setAvailableProviders(providers)
                         .build(),
                 RC_SIGN_IN);
+
     }
 
     private static void checkAdmin(String uid) {

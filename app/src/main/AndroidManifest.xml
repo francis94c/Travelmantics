@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".ListActivity"
-            android:screenOrientation="portrait">
+            android:configChanges="orientation|screenSize|keyboardHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -21,7 +21,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".DealActivity"
-            android:screenOrientation="portrait">
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:parentActivityName=".ListActivity">
         </activity>
     </application>
 

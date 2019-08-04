@@ -8,6 +8,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -71,6 +72,8 @@ public class ListActivity extends AppCompatActivity {
                             }
                         });
                 FirebaseUtil.detachListener();
+                FirebaseUtil.launched = false;
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -86,9 +89,23 @@ public class ListActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (requestCode == FirebaseUtil.RC_SIGN_IN) {
+            invalidateOptionsMenu();
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        FirebaseUtil.launched = false;
+        super.onBackPressed();
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
         FirebaseUtil.attachListener();
         adapter.notifyDataSetChanged();
+        //invalidateOptionsMenu();
     }
 }
