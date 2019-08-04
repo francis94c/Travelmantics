@@ -19,7 +19,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.cynobit.travelmantics.util.FirebaseUtil;
-import com.cynobit.travelmantics.util.TravelDeal;
+import com.cynobit.travelmantics.model.TravelDeal;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;

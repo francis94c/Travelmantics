@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.cynobit.travelmantics.DealActivity;
 import com.cynobit.travelmantics.R;
 import com.cynobit.travelmantics.util.FirebaseUtil;
-import com.cynobit.travelmantics.util.TravelDeal;
+import com.cynobit.travelmantics.model.TravelDeal;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
