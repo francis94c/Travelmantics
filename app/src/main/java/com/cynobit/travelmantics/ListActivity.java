@@ -40,6 +40,9 @@ public class ListActivity extends AppCompatActivity {
         rvDeals.setAdapter(adapter);
         LinearLayoutManager dealsLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
         rvDeals.setLayoutManager(dealsLayoutManager);
+        if (FirebaseUtil.loggedInUserEmail != null) {
+            setTitle(getResources().getString(R.string.app_name) + " : " + FirebaseUtil.loggedInUserEmail);
+        }
     }
 
     @Override
@@ -92,6 +95,9 @@ public class ListActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (requestCode == FirebaseUtil.RC_SIGN_IN) {
             invalidateOptionsMenu();
+            if (FirebaseUtil.loggedInUserEmail != null) {
+                setTitle(getResources().getString(R.string.app_name) + " : " + FirebaseUtil.loggedInUserEmail);
+            }
         }
     }
 
@@ -106,6 +112,5 @@ public class ListActivity extends AppCompatActivity {
         super.onResume();
         FirebaseUtil.attachListener();
         adapter.notifyDataSetChanged();
-        //invalidateOptionsMenu();
     }
 }

@@ -35,6 +35,7 @@ public class FirebaseUtil {
     public static int RC_SIGN_IN = 53;
     public static boolean isAdmin;
     public static boolean launched = false;
+    public static String loggedInUserEmail;
 
 
     private FirebaseUtil() {
@@ -53,6 +54,7 @@ public class FirebaseUtil {
                         FirebaseUtil.signIn();
                     } else {
                         String uid = firebaseAuth.getUid();
+                        loggedInUserEmail = firebaseAuth.getCurrentUser().getEmail();
                         checkAdmin(uid);
                         if (!launched) {
                             Toast.makeText(callerActivity.getBaseContext(), "Welcome back!", Toast.LENGTH_LONG).show();
